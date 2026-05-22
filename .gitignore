@@ -39,6 +39,15 @@ ENV/
 env/
 .venv
 
+# Docker
+compose.override.yml
+docker-compose.override.yml
+
+# Nginx
+nginx/logs/
+nginx/*.log
+nginx/cache/
+
 # IDE and Editor
 .vscode/
 .idea/
