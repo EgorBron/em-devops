@@ -13,31 +13,41 @@
 
 1. Установите зависимости:
 
+  ```sh
   sudo apt update && sudo apt install -y ca-certificates curl gnupg lsb-release
+  ```
 
 2. Установите Docker Engine:
 
+  ```sh
   curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
   newgrp docker
+  ```
 
 3. Установите Git (необязательно):
 
+  ```sh
   sudo apt update && sudo apt install -y git
+  ```
 
 
 ### Скачивание репозитория
 
 Склонируйте репозиторий командой ниже:
 
+  ```sh
   git clone https://github.com/EgorBron/em-devops
+  ```
 
 Или скачайте следующей командой, если присутствуют проблемы с Git:
 
+  ```sh
   curl -L https://github.com/EgorBron/em-devops/archive/refs/heads/master.tar.gz | tar -xz
+  ```
 
 Затем перейдите в директорию репозитория.
 
@@ -46,37 +56,51 @@
 
 Команды в этом разделе должны выполняться *от корня репозитория*.
 
-0. Скопируйте пример файла с переменными окружения и отредактируйте его при надобности:
+1. Скопируйте пример файла с переменными окружения и отредактируйте его при надобности:
 
+  ```sh
   cp .env.example .env
+  ```
 
-1. Проверьте корректность конфигурации:
+2. Проверьте корректность конфигурации:
 
+  ```sh
   docker compose config --quiet && echo "docker-compose.yml is valid"
+  ```
 
-2. Запустите приложение со включенной сборкой образов:
+3. Запустите приложение со включенной сборкой образов:
 
+  ```sh
   docker compose up --build
+  ```
 
-3. При последующих запусках можно использовать следующую команду, если код или Dockerfile бэкенда не изменялись:
+4. При последующих запусках можно использовать следующую команду, если код или Dockerfile бэкенда не изменялись:
 
+  ```sh
   docker compose up -d
+  ```
 
   > Флаг `-d` "отвязывает" терминал от окна журналов Compose. Чтобы просмотреть их, стоит использовать команду `docker compose logs`.
 
-4. Вы можете сменить адрес и порт, на котором слушает приложение и обратный прокси, задав переменные окружения через файл `.env` или через параметр `-e`:
+5. Вы можете сменить адрес и порт, на котором слушает приложение и обратный прокси, задав переменные окружения через файл `.env` или через параметр `-e`:
 
+  ```sh
   docker compose up -e PROXY_PORT=8090 -e BACKEND_PORT=9000 -e BACKEND_HOST=0.0.0.0
+  ```
 
   > Поскольку nginx напрямую не поддерживает подстановку из переменных окружения, при смене порта приложения также измените его в конфигурации nginx!
 
-5. Проверьте работоспособность приложения с помощью `curl`:
+6. Проверьте работоспособность приложения с помощью `curl`:
 
+  ```sh
   curl localhost -v
+  ```
 
-6. По окончании работы остановите и удалите контейнеры:
+7. После завершения работы остановите и удалите контейнеры:
 
+  ```sh
   docker copose down
+  ```
 
   > Если вы по каким-то причинам не хотите удалять контейнеры, а просто приостановить, воспользуйтесь командами `docker compose stop/start` для управления этим состоянием.
 
